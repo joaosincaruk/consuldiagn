@@ -169,6 +169,7 @@
 
   .locked{ position:relative; margin:18px 0 4px; }
   .locked-body{ filter:blur(5px); user-select:none; -webkit-user-select:none; pointer-events:none; transition:filter .7s ease; }
+  .locked:not(.open) .locked-body{ max-height:120px; overflow:hidden; }
   .locked.open .locked-body{ filter:none; user-select:auto; -webkit-user-select:auto; pointer-events:auto; }
   .locked h3{ font-size:16px; font-weight:750; font-stretch:90%; color:var(--print); margin:0 0 4px; }
   .locked p{ margin:0 0 14px; font-size:15.5px; line-height:1.5; }
@@ -179,12 +180,12 @@
   .gab b{ display:block; font-size:15px; }
   .gab .ok{ color:var(--green); font-weight:650; } .gab .no{ color:var(--red); font-weight:650; }
   .gab span.c{ color:var(--muted); display:block; margin-top:3px; }
-  .lock-note{ position:absolute; inset:0; display:flex; align-items:flex-start; justify-content:center; padding:40px 12px 0; }
-  .lock-note span{ display:flex; align-items:center; gap:9px; max-width:32ch; background:var(--paper); border:1px solid var(--print-soft); border-radius:4px; padding:10px 14px; font-size:14.5px; font-weight:600; line-height:1.35; box-shadow:0 2px 8px rgba(29,42,40,.08); position:sticky; top:20px; }
+  .lock-note{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:0 12px; }
+  .lock-note span{ display:flex; align-items:center; gap:9px; max-width:32ch; background:var(--paper); border:1px solid var(--print-soft); border-radius:4px; padding:10px 14px; font-size:14.5px; font-weight:600; line-height:1.35; box-shadow:0 2px 8px rgba(29,42,40,.08); }
   .lock-note svg{ flex:none; }
   .locked.open .lock-note{ display:none; }
 
-  .lead{ margin-top:22px; padding-top:16px; border-top:3px double var(--print); }
+  .lead{ margin-top:18px; padding-top:16px; border-top:3px double var(--print); }
   .lead-title{ font-size:20px; font-weight:750; font-stretch:86%; margin:0 0 4px; }
   .lead .hint{ margin-bottom:12px; }
   .lead .hand-input{ font-size:27px; }
@@ -265,12 +266,11 @@
 
       <!-- Folha 6: laudo + captura -->
       <section class="sheet" id="s5" tabindex="-1" aria-labelledby="t5">
-        <header class="form-head"><div class="brand"><strong>Consulthree Jovens</strong><span>Laudo preliminar</span></div><span class="folio">Prévia</span></header>
+        <header class="form-head"><div class="brand"><strong>Consulthree Jovens</strong><span>Laudo preliminar</span></div><span class="folio">Prévia · <span data-today></span></span></header>
         <div class="laudo-top">
           <dl class="pac">
             <div><dt>Paciente</dt><dd id="lPac"></dd></div>
             <div><dt>Momento</dt><dd id="lMom"></dd></div>
-            <div><dt>Emitido em</dt><dd data-today></dd></div>
           </dl>
           <div class="stamp" id="stamp" data-s="atencao" role="status">Observação</div>
         </div>
@@ -280,26 +280,9 @@
           <tbody id="examBody"></tbody>
         </table>
 
-        <div class="locked" id="locked">
-          <div class="locked-body">
-            <h3>Diagnóstico</h3>
-            <p id="dTxt"></p>
-            <h3>Prescrição</h3>
-            <ol id="rxList"></ol>
-            <h3>Gabarito comentado</h3>
-            <ol class="gab" id="gab"></ol>
-          </div>
-          <div class="lock-note">
-            <span>
-              <svg width="18" height="20" viewBox="0 0 18 20" aria-hidden="true"><rect x="1.5" y="8.5" width="15" height="10" rx="2" fill="none" stroke="#2E6B60" stroke-width="1.6"/><path d="M5 8.5V6a4 4 0 0 1 8 0v2.5" fill="none" stroke="#2E6B60" stroke-width="1.6"/></svg>
-              Diagnóstico, prescrição e gabarito comentado vão no laudo completo, por <span style="white-space:nowrap">e-mail</span>.
-            </span>
-          </div>
-        </div>
-
         <div class="lead" id="leadForm" role="form" aria-labelledby="leadTitle">
           <h3 class="lead-title" id="leadTitle">Para emitir o laudo completo</h3>
-          <p class="hint">Enviamos o laudo com o gabarito para o seu e-mail. Se quiser, alguém da equipe explica o resultado pelo WhatsApp.</p>
+          <p class="hint">Diagnóstico, prescrição e gabarito comentado das 8 perguntas, liberados aqui e enviados por e-mail.</p>
           <label class="field" for="fNome"><span class="field-label">Seu nome completo</span>
             <input class="hand-input" id="fNome" type="text" autocomplete="name" maxlength="80" aria-describedby="eNome"><span class="err" id="eNome" aria-live="polite"></span></label>
           <label class="field" for="fEmail"><span class="field-label">E-mail</span>
@@ -321,9 +304,26 @@
 
         <div class="done" id="done" hidden>
           <p class="done-title" tabindex="-1" id="doneTitle">Laudo emitido.</p>
-          <p>Enviamos o laudo completo para <strong id="dEmail"></strong>. O gabarito já está liberado aqui em cima.</p>
+          <p>Enviamos o laudo completo para <strong id="dEmail"></strong>. O diagnóstico e o gabarito estão liberados logo abaixo.</p>
           <a class="btn" id="waBtn" href="#" target="_blank" rel="noopener">Conversar sobre o resultado no WhatsApp</a>
           <button class="btn-text" type="button" id="restart">Refazer a avaliação</button>
+        </div>
+
+        <div class="locked" id="locked">
+          <div class="locked-body">
+            <h3>Diagnóstico</h3>
+            <p id="dTxt"></p>
+            <h3>Prescrição</h3>
+            <ol id="rxList"></ol>
+            <h3>Gabarito comentado</h3>
+            <ol class="gab" id="gab"></ol>
+          </div>
+          <div class="lock-note">
+            <span>
+              <svg width="18" height="20" viewBox="0 0 18 20" aria-hidden="true"><rect x="1.5" y="8.5" width="15" height="10" rx="2" fill="none" stroke="#2E6B60" stroke-width="1.6"/><path d="M5 8.5V6a4 4 0 0 1 8 0v2.5" fill="none" stroke="#2E6B60" stroke-width="1.6"/></svg>
+              Liberado ao emitir o laudo completo.
+            </span>
+          </div>
         </div>
 
         <p class="foot">Avaliação educativa feita a partir das suas respostas. Questões tributárias simplificadas: confirme o seu caso com um contador.</p>
