@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sua carreira passaria no diagnóstico? | Consulthree Jovens</title>
+<meta name="description" content="Oito perguntas sobre o que a faculdade não ensina. Preencha a ficha e receba o laudo da sua carreira.">
+<meta name="theme-color" content="#4a3729">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+  /* ============ Tokens ============ */
+  :root{
+    --desk:#5E4635; --desk-dark:#3B2B20;
+    --board:#22404F; --board-hi:#30586B; --board-lo:#1A3341;
+    --paper:#F4F7F5; --paper-2:#E5ECE9; --paper-3:#D6DFDB;
+    --print:#2E6B60; --print-soft:rgba(46,107,96,.26); --print-dark:#1F4D45;
+    --text:#1D2A28; --muted:#566662;
+    --ink:#1F3E9C; --ink-soft:rgba(31,62,156,.28);
+    --red:#B3261E; --amber:#9A5A08; --green:#1E7A4F;
+    --hand:'Reenie Beanie','Caveat','Segoe Print','Bradley Hand',cursive;
+    --sans:'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --rx:4deg; --ry:0deg;
+  }
+  @media (min-width:700px){ :root{ --rx:7deg; } }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; }
+  body{
+    min-height:100vh; min-height:100dvh;
+    font-family:var(--sans); color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    background:
+      radial-gradient(110% 60% at 28% -8%, rgba(255,226,178,.20), transparent 62%),
+      radial-gradient(150% 90% at 50% 115%, rgba(0,0,0,.42), transparent 60%),
+      repeating-linear-gradient(91deg, rgba(0,0,0,.055) 0 1px, transparent 1px 7px),
+      repeating-linear-gradient(89.4deg, rgba(255,255,255,.03) 0 2px, transparent 2px 23px),
+      linear-gradient(180deg, var(--desk), var(--desk-dark));
+  }
+
+  /* ============ Cena / prancheta ============ */
+  .scene{ position:relative; perspective:1500px; perspective-origin:50% 18%; padding:34px 10px 72px; display:flex; justify-content:center; }
+  .board{
+    position:relative; width:min(100%, 500px);
+    padding:34px 10px 16px; border-radius:14px;
+    background:linear-gradient(158deg, var(--board-hi), var(--board) 38%, var(--board-lo));
+    box-shadow:0 34px 50px -22px rgba(0,0,0,.65), 0 8px 16px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.14);
+    transform-style:preserve-3d;
+    transform:rotateX(var(--rx)) rotateY(var(--ry));
+    transform-origin:50% 30%;
+    transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .board.enter{ animation:boardIn 1.05s cubic-bezier(.16,.84,.24,1) both; }
+  @keyframes boardIn{ from{ transform:translateY(75vh) rotateX(40deg) rotateZ(-3deg); } to{ transform:rotateX(var(--rx)) rotateY(var(--ry)); } }
+  .board.thud{ animation:thud .28s ease-out; }
+  @keyframes thud{ 0%,100%{ transform:rotateX(var(--rx)) rotateY(var(--ry)) translateY(0); } 35%{ transform:rotateX(var(--rx)) rotateY(var(--ry)) translateY(4px); } }
+  .clip{
+    position:absolute; top:-15px; left:50%; width:136px; height:46px;
+    transform:translateX(-50%) translateZ(8px); border-radius:10px 10px 16px 16px;
+    background:linear-gradient(180deg,#eef1f3,#aeb7bd 42%,#dfe4e7 58%,#8d969c);
+    box-shadow:0 7px 10px rgba(0,0,0,.38), inset 0 1px 0 #fff, inset 0 -2px 0 rgba(0,0,0,.18);
+  }
+  .clip::after{ content:""; position:absolute; left:50%; top:10px; width:38px; height:10px; transform:translateX(-50%); border-radius:6px; background:#5a6368; box-shadow:inset 0 2px 3px rgba(0,0,0,.55); }
+
+  .stack{ position:relative; transform-style:preserve-3d; transition:height .45s cubic-bezier(.2,.8,.2,1); }
+  .stack::before,.stack::after{ content:""; position:absolute; left:3px; right:3px; bottom:-4px; height:100%; background:var(--paper-2); border-radius:3px; transform:translateZ(1px); box-shadow:0 1px 1px rgba(0,0,0,.18); pointer-events:none; }
+  .stack::after{ left:6px; right:6px; bottom:-8px; background:var(--paper-3); transform:translateZ(.5px); }
+
+  .sheet{
+    position:absolute; top:0; left:0; right:0; padding:18px 18px 22px; border-radius:3px;
+    background-color:var(--paper);
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    box-shadow:0 1px 2px rgba(0,0,0,.22);
+    transform-origin:50% 0; transform:translateZ(2px);
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    visibility:hidden; outline:none;
+  }
+  .sheet.is-active{ visibility:visible; transform:translateZ(3px); }
+  .sheet.is-under{ visibility:visible; transform:translateZ(2px); }
+  .sheet.is-under::after{ content:""; position:absolute; inset:0; border-radius:3px; pointer-events:none; background:linear-gradient(180deg, rgba(20,35,32,.22), rgba(20,35,32,0) 75%); animation:shade .7s ease-out forwards; }
+  @keyframes shade{ from{opacity:1} to{opacity:0} }
+  .sheet.flip-up{ visibility:visible; animation:flipUp .7s cubic-bezier(.55,.06,.35,1) forwards; }
+  .sheet.flip-down{ visibility:visible; animation:flipDown .7s cubic-bezier(.55,.06,.35,1) forwards; }
+  @keyframes flipUp{ 0%{ transform:translateZ(4px) rotateX(0); opacity:1; } 72%{ opacity:1; } 100%{ transform:translateZ(4px) rotateX(128deg); opacity:0; } }
+  @keyframes flipDown{ 0%{ transform:translateZ(4px) rotateX(128deg); opacity:0; } 28%{ opacity:1; } 100%{ transform:translateZ(4px) rotateX(0); opacity:1; } }
+
+  /* ============ Formulário impresso ============ */
+  .form-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:12px; padding-bottom:10px; margin-bottom:16px; border-bottom:3px double var(--print); color:var(--print); }
+  .brand strong{ display:block; font-size:19px; font-weight:800; font-stretch:118%; letter-spacing:-.01em; line-height:1.1; }
+  .brand span{ display:block; font-size:13px; color:var(--muted); margin-top:2px; }
+  .folio{ font-size:13px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .pac-line{ display:flex; align-items:baseline; gap:10px; margin:-4px 0 14px; padding-bottom:4px; border-bottom:1px solid var(--print-soft); font-size:13px; font-weight:600; color:var(--print); }
+  .hand{ font-family:var(--hand); color:var(--ink); font-weight:400; font-size:28px; line-height:1; }
+  h1{ font-size:clamp(31px, 8.6vw, 40px); line-height:1.03; font-weight:800; font-stretch:76%; letter-spacing:-.012em; margin:4px 0 12px; text-wrap:balance; }
+  .lede{ font-size:16px; line-height:1.5; color:var(--muted); margin:0 0 20px; max-width:40ch; }
+  .q{ display:block; padding:0; font-size:21px; line-height:1.2; font-weight:720; font-stretch:84%; margin:0 0 6px; text-wrap:balance; color:var(--text); }
+  .q .n{ color:var(--print); }
+  .hint{ font-size:14.5px; color:var(--muted); margin:0 0 12px; line-height:1.45; }
+  .field{ display:block; margin:0 0 16px; }
+  .field-label{ display:block; font-size:13px; font-weight:600; color:var(--print); margin-bottom:2px; }
+  .field-label em{ font-style:normal; font-weight:400; color:var(--muted); }
+  .hand-input{ width:100%; display:block; border:0; border-radius:0; background:transparent; border-bottom:1.5px solid var(--print-soft); font-family:var(--hand); font-size:30px; line-height:1.25; color:var(--ink); padding:2px 2px 0; outline:none; }
+  .hand-input::placeholder{ color:var(--ink-soft); }
+  .hand-input:focus-visible{ border-bottom-color:var(--ink); background:rgba(31,62,156,.05); }
+  .hand-input[aria-invalid="true"]{ border-bottom-color:var(--red); }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:22px; }
+  .row2 .cell{ border-bottom:1.5px solid var(--print-soft); padding-bottom:2px; }
+
+  .btn{ appearance:none; -webkit-appearance:none; border:0; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; width:100%; min-height:52px; padding:14px 20px; font-family:var(--sans); font-size:16.5px; font-weight:650; font-stretch:96%; color:#fff; background:var(--print); border-radius:6px; box-shadow:0 2px 0 var(--print-dark); text-decoration:none; text-align:center; transition:transform .1s, box-shadow .1s, background-color .2s; }
+  .btn:hover{ background:#2a6359; }
+  .btn:active{ transform:translateY(1px); box-shadow:0 1px 0 var(--print-dark); }
+  .btn:disabled{ background:#a3b8b3; box-shadow:none; cursor:not-allowed; transform:none; }
+  .btn:focus-visible,.btn-text:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
+  .btn-text{ appearance:none; -webkit-appearance:none; border:0; background:none; cursor:pointer; font-family:var(--sans); font-size:15.5px; font-weight:600; color:var(--print); padding:14px 6px; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; border-radius:4px; flex:none; }
+  .nav{ display:flex; align-items:center; gap:10px; margin-top:22px; }
+  .nav .btn{ flex:1; width:auto; }
+  .fine{ font-size:13px; line-height:1.45; color:var(--muted); margin:12px 0 0; }
+
+  fieldset{ border:0; margin:0; padding:0; min-width:0; }
+  legend{ padding:0; }
+  .options{ border-top:1px solid var(--print-soft); }
+  .choice{ position:relative; display:grid; grid-template-columns:26px 1fr; gap:12px; align-items:start; padding:13px 2px; border-bottom:1px solid var(--print-soft); font-size:15.5px; line-height:1.4; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .choice input{ position:absolute; opacity:0; width:1px; height:1px; margin:0; pointer-events:none; }
+  .box{ position:relative; width:22px; height:22px; margin-top:1px; border:1.5px solid var(--print); border-radius:2px; background:#fff; }
+  .box svg{ position:absolute; left:-4px; top:-9px; width:34px; height:34px; overflow:visible; pointer-events:none; }
+  .box path{ fill:none; stroke:var(--ink); stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:27; stroke-dashoffset:27; transition:stroke-dashoffset .3s cubic-bezier(.4,0,.2,1); }
+  .choice input:checked + .box path{ stroke-dashoffset:0; }
+  .choice input:focus-visible + .box{ outline:3px solid var(--ink); outline-offset:3px; }
+  .choice:hover .box{ background:#f0f4ff; }
+  .options.grid2{ display:grid; grid-template-columns:1fr 1fr; column-gap:14px; }
+  .options.grid2 .choice{ padding:12px 2px; font-size:15px; grid-template-columns:22px 1fr; gap:10px; }
+  .options.grid2 .box{ width:20px; height:20px; }
+
+  .ecg{ position:relative; margin:2px 0 18px; border:1px solid #e3aaa4; border-radius:2px; background:#fff7f6; }
+  .ecg canvas{ display:block; width:100%; height:92px; }
+  .ecg-read{ position:absolute; top:6px; right:6px; padding:3px 6px; text-align:right; background:rgba(255,247,246,.9); border-radius:2px; font-size:12px; color:#8a3b35; line-height:1.2; }
+  .ecg-read strong{ display:block; font-size:18px; font-stretch:88%; color:var(--text); font-variant-numeric:tabular-nums; }
+  .slider{ margin:6px 0 8px; }
+  .slider-val{ display:block; margin:2px 0 4px; }
+  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:38px; margin:0; background:transparent; cursor:pointer; }
+  input[type=range]::-webkit-slider-runnable-track{ height:2px; background:var(--print); }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:28px; height:28px; margin-top:-13px; border-radius:50%; background:var(--ink); border:4px solid var(--paper); box-shadow:0 0 0 1.5px var(--ink), 0 2px 5px rgba(0,0,0,.25); }
+  input[type=range]::-moz-range-track{ height:2px; background:var(--print); }
+  input[type=range]::-moz-range-thumb{ width:20px; height:20px; border-radius:50%; background:var(--ink); border:4px solid var(--paper); box-shadow:0 0 0 1.5px var(--ink), 0 2px 5px rgba(0,0,0,.25); }
+  input[type=range]:focus-visible{ outline:none; }
+  input[type=range]:focus-visible::-webkit-slider-thumb{ box-shadow:0 0 0 1.5px var(--ink), 0 0 0 7px rgba(31,62,156,.22); }
+  input[type=range]:focus-visible::-moz-range-thumb{ box-shadow:0 0 0 1.5px var(--ink), 0 0 0 7px rgba(31,62,156,.22); }
+  .ticks{ display:flex; justify-content:space-between; padding:0 10px; font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; }
+
+  .laudo-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:12px; }
+  .pac{ margin:0; display:grid; gap:6px; min-width:0; }
+  .pac div{ display:grid; gap:0; }
+  .pac dt{ font-size:13px; font-weight:600; color:var(--print); }
+  .pac dd{ margin:0; font-size:17px; font-weight:650; line-height:1.25; overflow-wrap:anywhere; }
+  .stamp{ flex:none; margin:10px 4px 0 0; color:var(--amber); border:3px solid currentColor; border-radius:4px; outline:1.5px solid currentColor; outline-offset:3px; padding:5px 11px 4px; font-size:23px; font-weight:900; font-stretch:70%; letter-spacing:.07em; text-transform:uppercase; transform:rotate(-9deg); opacity:0; filter:url(#rough); }
+  .stamp[data-s="estavel"]{ color:var(--green); }
+  .stamp[data-s="critico"]{ color:var(--red); }
+  .stamp.slam{ animation:slam .42s cubic-bezier(.2,1.35,.4,1) forwards; }
+  @keyframes slam{ 0%{ opacity:0; transform:rotate(-9deg) scale(2.3); } 55%{ opacity:.95; } 100%{ opacity:.88; transform:rotate(-9deg) scale(1); } }
+  .exam{ width:100%; border-collapse:collapse; font-size:14.5px; line-height:1.35; margin:4px 0 0; }
+  .exam th{ text-align:left; font-weight:600; font-size:13px; color:var(--print); padding:6px 6px 6px 0; border-bottom:1.5px solid var(--print); }
+  .exam td{ padding:10px 6px 10px 0; border-bottom:1px dashed var(--print-soft); vertical-align:top; }
+  .exam td:nth-child(2){ font-weight:750; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .exam td:nth-child(3){ color:var(--muted); }
+  .exam .alert{ color:var(--red); }
+  .exam .ok{ color:var(--green); }
+
+  .locked{ position:relative; margin:18px 0 4px; }
+  .locked-body{ filter:blur(5px); user-select:none; -webkit-user-select:none; pointer-events:none; transition:filter .7s ease; }
+  .locked.open .locked-body{ filter:none; user-select:auto; -webkit-user-select:auto; pointer-events:auto; }
+  .locked h3{ font-size:16px; font-weight:750; font-stretch:90%; color:var(--print); margin:0 0 4px; }
+  .locked p{ margin:0 0 14px; font-size:15.5px; line-height:1.5; }
+  .locked ol{ margin:0 0 14px; padding-left:22px; font-size:15.5px; line-height:1.5; }
+  .locked li{ margin-bottom:4px; }
+  .gab{ margin:0; padding:0; list-style:none; }
+  .gab li{ padding:10px 0; border-bottom:1px dashed var(--print-soft); font-size:14.5px; line-height:1.45; }
+  .gab b{ display:block; font-size:15px; }
+  .gab .ok{ color:var(--green); font-weight:650; } .gab .no{ color:var(--red); font-weight:650; }
+  .gab span.c{ color:var(--muted); display:block; margin-top:3px; }
+  .lock-note{ position:absolute; inset:0; display:flex; align-items:flex-start; justify-content:center; padding:40px 12px 0; }
+  .lock-note span{ display:flex; align-items:center; gap:9px; max-width:32ch; background:var(--paper); border:1px solid var(--print-soft); border-radius:4px; padding:10px 14px; font-size:14.5px; font-weight:600; line-height:1.35; box-shadow:0 2px 8px rgba(29,42,40,.08); position:sticky; top:20px; }
+  .lock-note svg{ flex:none; }
+  .locked.open .lock-note{ display:none; }
+
+  .lead{ margin-top:22px; padding-top:16px; border-top:3px double var(--print); }
+  .lead-title{ font-size:20px; font-weight:750; font-stretch:86%; margin:0 0 4px; }
+  .lead .hint{ margin-bottom:12px; }
+  .lead .hand-input{ font-size:27px; }
+  .err{ display:block; font-size:13.5px; color:var(--red); margin-top:4px; line-height:1.35; }
+  .err:empty{ display:none; }
+  .consent{ position:relative; display:grid; grid-template-columns:22px 1fr; gap:10px; align-items:start; font-size:14px; line-height:1.45; color:var(--text); margin:6px 0 4px; cursor:pointer; }
+  .consent input{ position:absolute; opacity:0; width:1px; height:1px; margin:0; }
+  .consent .box{ width:20px; height:20px; }
+  .consent input:checked + .box path{ stroke-dashoffset:0; }
+  .consent input:focus-visible + .box{ outline:3px solid var(--ink); outline-offset:3px; }
+  .lead .btn{ margin-top:14px; }
+  .done{ margin-top:22px; padding-top:16px; border-top:3px double var(--print); }
+  .done-title{ font-size:21px; font-weight:780; font-stretch:86%; color:var(--green); margin:0 0 6px; }
+  .done p{ font-size:15.5px; line-height:1.5; margin:0 0 16px; }
+  .done .btn-text{ display:block; margin:6px auto 0; }
+  .foot{ font-size:12.5px; line-height:1.45; color:var(--muted); margin:18px 0 0; }
+
+  .pen{ display:none; }
+  @media (min-width:960px){ .pen{ display:block; position:absolute; width:300px; height:auto; top:300px; left:calc(50% + 260px); transform:rotate(101deg); filter:drop-shadow(-10px 14px 8px rgba(0,0,0,.35)); } }
+  .sr-only{ position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  @media (prefers-reduced-motion: reduce){ *,*::before,*::after{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="rough" x="-10%" y="-20%" width="120%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="3" result="grain"/>
+    <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.7" result="mask"/>
+    <feComposite in="d" in2="mask" operator="in"/>
+  </filter>
+</svg>
+
+<main class="scene">
+  <svg class="pen" viewBox="0 0 320 28" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="barrel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfcfd"/><stop offset=".55" stop-color="#d6dce1"/><stop offset="1" stop-color="#a3acb3"/></linearGradient>
+      <linearGradient id="cap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3956a8"/><stop offset=".55" stop-color="#1f3e9c"/><stop offset="1" stop-color="#132a6e"/></linearGradient>
+    </defs>
+    <path d="M3 14 L12 11.6 L12 16.4 Z" fill="#4a4f53"/>
+    <path d="M11 11 L36 6.5 L36 21.5 L11 17 Z" fill="#c7cdd2"/>
+    <rect x="35" y="5.5" width="196" height="17" rx="3" fill="url(#barrel)"/>
+    <rect x="224" y="4.5" width="92" height="19" rx="5" fill="url(#cap)"/>
+    <rect x="238" y="1.5" width="66" height="5" rx="2.5" fill="#173275"/>
+  </svg>
+
+  <div class="board enter" id="board">
+    <div class="clip" aria-hidden="true"></div>
+    <div class="stack" id="stack">
+
+      <!-- Folha 1: entrada -->
+      <section class="sheet is-active" id="s0" tabindex="-1" aria-labelledby="t0">
+        <header class="form-head">
+          <div class="brand"><strong>Consulthree Jovens</strong><span>Ficha de entrada</span></div>
+          <span class="folio">Folha 1 de 9</span>
+        </header>
+        <h1 id="t0">Sua carreira passaria no diagnóstico?</h1>
+        <p class="lede">Hoje quem passa em consulta é a sua carreira. São 8 perguntas sobre o que a faculdade não ensina: dinheiro, mercado, posicionamento e gestão. Aviso: a resposta que parece certa nem sempre é.</p>
+        <label class="field" for="pac">
+          <span class="field-label">Paciente <em>(seu nome)</em></span>
+          <input class="hand-input" id="pac" type="text" autocomplete="given-name" maxlength="60" placeholder="Ana Beatriz">
+        </label>
+        <fieldset style="margin-bottom:18px">
+          <legend class="field-label">Momento da carreira</legend>
+          <div class="options grid2" id="momento"></div>
+        </fieldset>
+        <div class="row2">
+          <div class="cell"><span class="field-label">Data de entrada</span><span class="hand" data-today></span></div>
+          <div class="cell"><span class="field-label">Tempo de consulta</span><span class="hand">4 minutos</span></div>
+        </div>
+        <button class="btn" type="button" id="startBtn" disabled>Iniciar atendimento</button>
+        <p class="fine">A prévia do laudo aparece na hora. O gabarito comentado vai por e-mail.</p>
+      </section>
+
+      <!-- Folhas 2 a 9: uma pergunta por folha, montadas pelo script -->
+
+      <!-- Folha 6: laudo + captura -->
+      <section class="sheet" id="s5" tabindex="-1" aria-labelledby="t5">
+        <header class="form-head"><div class="brand"><strong>Consulthree Jovens</strong><span>Laudo preliminar</span></div><span class="folio">Prévia</span></header>
+        <div class="laudo-top">
+          <dl class="pac">
+            <div><dt>Paciente</dt><dd id="lPac"></dd></div>
+            <div><dt>Momento</dt><dd id="lMom"></dd></div>
+            <div><dt>Emitido em</dt><dd data-today></dd></div>
+          </dl>
+          <div class="stamp" id="stamp" data-s="atencao" role="status">Observação</div>
+        </div>
+        <h2 class="q" id="t5">Resultado da avaliação</h2>
+        <table class="exam">
+          <thead><tr><th scope="col">Exame</th><th scope="col">Resultado</th><th scope="col">Referência</th></tr></thead>
+          <tbody id="examBody"></tbody>
+        </table>
+
+        <div class="locked" id="locked">
+          <div class="locked-body">
+            <h3>Diagnóstico</h3>
+            <p id="dTxt"></p>
+            <h3>Prescrição</h3>
+            <ol id="rxList"></ol>
+            <h3>Gabarito comentado</h3>
+            <ol class="gab" id="gab"></ol>
+          </div>
+          <div class="lock-note">
+            <span>
+              <svg width="18" height="20" viewBox="0 0 18 20" aria-hidden="true"><rect x="1.5" y="8.5" width="15" height="10" rx="2" fill="none" stroke="#2E6B60" stroke-width="1.6"/><path d="M5 8.5V6a4 4 0 0 1 8 0v2.5" fill="none" stroke="#2E6B60" stroke-width="1.6"/></svg>
+              Diagnóstico, prescrição e gabarito comentado vão no laudo completo, por <span style="white-space:nowrap">e-mail</span>.
+            </span>
+          </div>
+        </div>
+
+        <div class="lead" id="leadForm" role="form" aria-labelledby="leadTitle">
+          <h3 class="lead-title" id="leadTitle">Para emitir o laudo completo</h3>
+          <p class="hint">Enviamos o laudo com o gabarito para o seu e-mail. Se quiser, alguém da equipe explica o resultado pelo WhatsApp.</p>
+          <label class="field" for="fNome"><span class="field-label">Seu nome completo</span>
+            <input class="hand-input" id="fNome" type="text" autocomplete="name" maxlength="80" aria-describedby="eNome"><span class="err" id="eNome" aria-live="polite"></span></label>
+          <label class="field" for="fEmail"><span class="field-label">E-mail</span>
+            <input class="hand-input" id="fEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="120" aria-describedby="eEmail"><span class="err" id="eEmail" aria-live="polite"></span></label>
+          <label class="field" for="fWpp"><span class="field-label">WhatsApp <em>(com DDD)</em></span>
+            <input class="hand-input" id="fWpp" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="16" placeholder="(11) 90000-0000" aria-describedby="eWpp"><span class="err" id="eWpp" aria-live="polite"></span></label>
+          <label class="field" for="fInst"><span class="field-label">Faculdade ou instituição <em>(opcional)</em></span>
+            <input class="hand-input" id="fInst" type="text" maxlength="80"></label>
+          <label class="consent" for="fConsent">
+            <input type="checkbox" id="fConsent" aria-describedby="eConsent">
+            <span class="box"><svg viewBox="0 0 24 24"><path d="M4 13 L9.5 18.5 L21 4"/></svg></span>
+            <span>Aceito receber o laudo e o contato da Consulthree por e-mail e WhatsApp.</span>
+          </label>
+          <span class="err" id="eConsent" aria-live="polite"></span>
+          <button class="btn" type="button" id="submitBtn">Emitir laudo completo</button>
+          <span class="err" id="eForm" aria-live="polite"></span>
+          <p class="fine">Usamos seus dados só para enviar o laudo e conversar sobre ele.</p>
+        </div>
+
+        <div class="done" id="done" hidden>
+          <p class="done-title" tabindex="-1" id="doneTitle">Laudo emitido.</p>
+          <p>Enviamos o laudo completo para <strong id="dEmail"></strong>. O gabarito já está liberado aqui em cima.</p>
+          <a class="btn" id="waBtn" href="#" target="_blank" rel="noopener">Conversar sobre o resultado no WhatsApp</a>
+          <button class="btn-text" type="button" id="restart">Refazer a avaliação</button>
+        </div>
+
+        <p class="foot">Avaliação educativa feita a partir das suas respostas. Questões tributárias simplificadas: confirme o seu caso com um contador.</p>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ===== Configuração ===== */
+  const CONFIG = {
+    WEBHOOK_URL: '',             // vazio = protótipo: só simula o envio e mostra o lead no console
+    WHATSAPP: '5511950683000',
+    REF_PILAR: 5,                // pontos (de 6) considerados saudáveis em cada pilar
+    CUSTO_FIXO: 12000, CONSULTA: 400, TAXAS: .15
+  };
+  const PILAR = { fin: 'Finanças', mer: 'Mercado e carreira', pos: 'Posicionamento', ges: 'Gestão' };
+  const MOMENTOS = ['Estudante', 'Internato', 'Residente', 'Recém-especialista'];
+
+  // [texto, pontos]. 3 = resposta mais forte; as armadilhas valem 1.
+  const Q = {
+    fin1: { n: 1, p: 'fin', t: 'Seu CNPJ de serviços médicos está no Simples Nacional. O que mais influencia a alíquota que você paga?',
+      o: [['O número de plantões que você faz por mês', 0], ['A cidade onde o CNPJ foi aberto', 1], ['Se você atende por convênio ou particular', 0], ['A proporção entre o seu pró-labore e o faturamento da empresa', 3]],
+      c: 'No Simples, serviço médico cai no Anexo III ou no Anexo V conforme o Fator R. Com folha e pró-labore a partir de 28% do faturamento, a alíquota inicial cai de 15,5% para 6%.' },
+    fin2: { n: 2, p: 'fin', t: 'Um colega sugere abrir um MEI para receber os plantões e pagar menos imposto. O que você responde?',
+      o: [['Funciona, desde que o faturamento fique abaixo do limite anual do MEI', 1], ['Medicina não pode ser MEI: o caminho é outro tipo de empresa', 3], ['Boa ideia, desde que o hospital aceite nota fiscal de MEI', 0], ['Vale a pena só no primeiro ano, enquanto a renda é menor', 0]],
+      c: 'Medicina é profissão regulamentada e não pode ser MEI, seja qual for o faturamento. O caminho costuma ser uma empresa no Simples ou no Lucro Presumido, com contador.' },
+    mer1: { n: 3, p: 'mer', t: 'Você gosta igualmente de duas especialidades. Qual dado de mercado deveria pesar mais na escolha?',
+      o: [['A remuneração média dos especialistas no país', 1], ['O número de vagas de residência e a nota de corte', 1], ['Quantos especialistas já atendem na região onde você quer viver, comparado à demanda de lá', 3], ['O quanto os médicos da área crescem nas redes sociais', 0]],
+      c: 'A média nacional esconde a realidade local. O que decide a sua agenda é a concorrência e a demanda na região onde você vai atender.' },
+    mer2: { n: 4, p: 'mer', t: 'Recém-especialista, você tem três propostas. Qual tende a construir mais carreira em 5 anos?',
+      o: [['Ambulatório da sua especialidade, pagando menos, numa clínica com fluxo de pacientes e rede de indicação', 3], ['Plantões com o maior valor por hora, num hospital sem relação com a sua especialidade', 1], ['Vínculo estável num hospital público, fora da especialidade', 1], ['Dividir a semana entre as três para não fechar nenhuma porta', 1]],
+      c: 'Valor por hora alto fora da especialidade paga as contas, mas não constrói nome, rede nem pacientes próprios.' },
+    pos1: { n: 5, p: 'pos', t: 'Seu Instagram tem 8 mil seguidores, mas a agenda não enche. Qual é a causa mais provável?',
+      o: [['Ainda são poucos seguidores: a agenda enche lá pelos 30 mil', 0], ['Falta frequência: o ideal é postar todos os dias', 1], ['Quem segue você não é quem pode marcar consulta: outra cidade, estudantes, colegas', 3], ['Falta investir em anúncios para impulsionar os posts', 1]],
+      c: 'Seguidor não é paciente. Se quem acompanha você mora longe ou é colega, o perfil cresce e a agenda não.' },
+    pos2: { n: 6, p: 'pos', t: 'Ao comparar três especialistas no Google, o que costuma pesar mais para o paciente escolher?',
+      o: [['Avaliações recentes, foto profissional e informação clara de onde e como agendar', 3], ['Currículo completo, com títulos, mestrado e congressos em destaque', 1], ['O número de seguidores no Instagram', 0], ['O preço mais baixo da consulta', 1]],
+      c: 'Na hora de escolher, o paciente olha prova social recente e facilidade para agendar. Títulos ajudam, mas raramente decidem sozinhos.' },
+    ges2: { n: 8, p: 'ges', t: 'Uma clínica oferece 60% de repasse, pagamento em 60 dias e exclusividade na cidade. O que mais pesa na sua carreira a longo prazo?',
+      o: [['O percentual de 60%', 1], ['A exclusividade na cidade', 3], ['O prazo de 60 dias para receber', 1], ['Nada disso: são condições padrão do mercado', 0]],
+      c: 'Percentual e prazo se renegociam. A exclusividade pode impedir você de abrir o próprio consultório ou atender em outro lugar por anos.' }
+  };
+  const BREAK = Math.ceil(CONFIG.CUSTO_FIXO / (CONFIG.CONSULTA * (1 - CONFIG.TAXAS))); // 36
+  const consPts = v => v === BREAK ? 3 : Math.abs(v - BREAK) === 1 ? 2 : v === CONFIG.CUSTO_FIXO / CONFIG.CONSULTA ? 1 : 0;
+
+  const DIAG = {
+    fin: { d: 'O dinheiro entra, mas a estrutura por trás dele ainda não está montada. É aqui que o jovem médico mais perde sem perceber: imposto mal planejado e CNPJ no formato errado.',
+      rx: ['Simular com um contador o Simples com e sem Fator R', 'Separar imposto e reserva no dia em que o dinheiro cai', 'Comparar toda proposta pelo valor líquido, nunca pelo bruto'] },
+    mer: { d: 'As escolhas de carreira estão sendo feitas com dados que não respondem à pergunta certa. Especialidade e propostas precisam ser lidas pelo mercado onde você vai atuar.',
+      rx: ['Mapear especialistas e demanda na cidade onde você quer atender', 'Priorizar propostas que constroem pacientes e indicação na especialidade', 'Escrever onde quer estar em 5 anos e checar cada proposta contra isso'] },
+    pos: { d: 'A presença digital pode até crescer, mas não está virando consulta. Falta falar com o paciente certo e facilitar o agendamento.',
+      rx: ['Revisar quem segue você: cidade, perfil, se pode virar paciente', 'Completar o perfil do Google com fotos, endereço e agendamento', 'Produzir conteúdo para o seu público dentro da Res. CFM 2.336/2023'] },
+    ges: { d: 'Os números do consultório ainda não estão na sua mão. Sem ponto de equilíbrio e sem ler o que cada contrato amarra, a decisão fica no feeling.',
+      rx: ['Calcular o ponto de equilíbrio já com impostos e taxas', 'Ler cláusulas de exclusividade e prazo antes de assinar', 'Acompanhar consultas, faltas e valor médio todo mês'] }
+  };
+  const STAMP = { estavel: 'Apto', atencao: 'Observação', critico: 'Risco' };
+
+  /* ===== Utilidades ===== */
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const CHECK = '<span class="box"><svg viewBox="0 0 24 24"><path d="M4 13 L9.5 18.5 L21 4"/></svg></span>';
+  window.dataLayer = window.dataLayer || [];
+  const track = (event, data = {}) => window.dataLayer.push({ event, ...data });
+
+  const qs = new URLSearchParams(location.search);
+  const utm = {};
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id', 'fbclid', 'ref'].forEach(k => { const v = qs.get(k); if (v) utm[k] = v; });
+
+  const state = { pac: '', momento: null, ans: {}, cons: 20 };
+  let result = null;
+  const today = new Date().toLocaleDateString('pt-BR');
+  $$('[data-today]').forEach(el => { el.textContent = today; });
+
+  /* ===== Monta perguntas: uma folha por pergunta ===== */
+  $('#momento').innerHTML = MOMENTOS.map(m => `<label class="choice"><input type="radio" name="momento" value="${m}">${CHECK}<span>${m}</span></label>`).join('');
+  const ORDER = [['fin1', 'Anamnese · Finanças'], ['fin2', 'Anamnese · Finanças'], ['mer1', 'Exame clínico · Mercado'], ['mer2', 'Exame clínico · Mercado'],
+    ['pos1', 'Exame de imagem · Posicionamento'], ['pos2', 'Exame de imagem · Posicionamento'], ['cons', 'Sinais vitais · Gestão'], ['ges2', 'Sinais vitais · Gestão']];
+  const TOTAL = ORDER.length + 1;
+  const head = (i, lbl) => `<header class="form-head"><div class="brand"><strong>Consulthree Jovens</strong><span>${lbl}</span></div><span class="folio">Folha ${i + 2} de ${TOTAL}</span></header><div class="pac-line">Paciente <span class="hand" data-pac></span></div>`;
+  const nav = i => `<div class="nav"><button class="btn-text" type="button" data-back>Voltar</button><button class="btn" type="button" data-next disabled>${i === ORDER.length - 1 ? 'Ver laudo' : 'Próxima folha'}</button></div>`;
+  $('#s5').insertAdjacentHTML('beforebegin', ORDER.map(([id, lbl], i) => {
+    if (id === 'cons') return `<section class="sheet" tabindex="-1" aria-label="Pergunta 7" data-req="">${head(i, lbl)}
+      <label class="q" for="cons"><span class="n">7.</span> Custo fixo do consultório: R$ 12 mil por mês. Consulta: R$ 400, e 15% de cada uma vai para impostos e taxas. Quantas consultas por mês você precisa só para cobrir o custo fixo?</label>
+      <p class="hint">Arraste até o número.</p>
+      <div class="ecg"><canvas id="ecg" aria-hidden="true"></canvas><div class="ecg-read">Consultas no mês<strong id="consRead">20</strong></div></div>
+      <div class="slider"><output class="hand slider-val" id="consOut" for="cons">20 consultas</output>
+      <input type="range" id="cons" min="10" max="60" step="1" value="20" aria-valuetext="20 consultas">
+      <div class="ticks" aria-hidden="true"><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span></div></div>${nav(i)}</section>`;
+    const q = Q[id];
+    return `<section class="sheet" tabindex="-1" aria-label="Pergunta ${q.n}" data-req="${id}">${head(i, lbl)}
+      <fieldset><legend class="q"><span class="n">${q.n}.</span> ${q.t}</legend><p class="hint">Marque uma.</p>
+      <div class="options">${q.o.map((o, k) => `<label class="choice"><input type="radio" name="${id}" value="${k}">${CHECK}<span>${o[0]}</span></label>`).join('')}</div></fieldset>${nav(i)}</section>`;
+  }).join(''));
+
+  /* ===== Prancheta ===== */
+  const board = $('#board');
+  board.addEventListener('animationend', e => {
+    if (e.target !== board) return;
+    if (e.animationName === 'boardIn') board.classList.remove('enter');
+    if (e.animationName === 'thud') board.classList.remove('thud');
+  });
+  if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    let raf = 0;
+    window.addEventListener('pointermove', e => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+        board.style.setProperty('--ry', (x * 5).toFixed(2) + 'deg');
+        board.style.setProperty('--rx', (7 - y * 3).toFixed(2) + 'deg');
+      });
+    }, { passive: true });
+  }
+
+  /* ===== Folhas ===== */
+  const stack = $('#stack');
+  const sheets = $$('.sheet', stack);
+  const LAST = sheets.length - 1, VITAIS = 1 + ORDER.findIndex(o => o[0] === 'cons');
+  let current = 0, busy = false;
+  const fit = h => { stack.style.height = (h ?? sheets[current].offsetHeight) + 'px'; };
+  const setInert = () => sheets.forEach((s, i) => { const on = i === current; s.inert = !on; s.setAttribute('aria-hidden', on ? 'false' : 'true'); });
+  sheets.forEach(s => new ResizeObserver(() => { if (!busy) fit(); }).observe(s));
+  addEventListener('resize', () => { if (!busy) fit(); });
+
+  function onFlipEnd(el, cb) {
+    let done = false;
+    const finish = () => { if (done) return; done = true; el.removeEventListener('animationend', handler); cb(); };
+    const handler = e => { if (e.target === el && !e.pseudoElement && /^flip/.test(e.animationName)) finish(); };
+    el.addEventListener('animationend', handler);
+    setTimeout(finish, 1100);
+  }
+  function go(to) {
+    if (busy || to === current || to < 0 || to >= sheets.length) return;
+    const from = sheets[current], next = sheets[to], forward = to > current;
+    const top = board.getBoundingClientRect().top;
+    if (top < 0) window.scrollTo({ top: window.scrollY + top - 24, behavior: reduce ? 'auto' : 'smooth' });
+    leave(current);
+    if (reduce) { from.className = 'sheet'; next.className = 'sheet is-active'; return finish(to); }
+    busy = true;
+    fit(Math.max(from.offsetHeight, next.offsetHeight));
+    if (forward) {
+      next.className = 'sheet is-under'; from.className = 'sheet flip-up';
+      onFlipEnd(from, () => { from.className = 'sheet'; next.className = 'sheet is-active'; finish(to); });
+    } else {
+      from.className = 'sheet is-under'; next.className = 'sheet flip-down';
+      onFlipEnd(next, () => { from.className = 'sheet'; next.className = 'sheet is-active'; finish(to); });
+    }
+  }
+  function finish(to) { current = to; busy = false; setInert(); fit(); sheets[to].focus({ preventScroll: true }); enter(to); }
+  function enter(i) {
+    if (i === VITAIS) ecg.start();
+    if (i === LAST) {
+      const stamp = $('#stamp');
+      stamp.classList.remove('slam'); void stamp.offsetWidth; stamp.classList.add('slam');
+      if (!reduce) setTimeout(() => board.classList.add('thud'), 260);
+      track('quiz_result_view', { status: result.status, pontos: result.total });
+    }
+  }
+  function leave(i) { if (i === VITAIS) ecg.stop(); }
+  $$('[data-back]').forEach(b => b.addEventListener('click', () => go(current - 1)));
+
+  /* ===== Folha 1 ===== */
+  const pacInput = $('#pac'), startBtn = $('#startBtn');
+  $$('input[name=momento]').forEach(r => r.addEventListener('change', () => { state.momento = r.value; startBtn.disabled = false; }));
+  const startQuiz = () => {
+    if (!state.momento) return;
+    state.pac = pacInput.value.trim() || 'Você';
+    $$('[data-pac]').forEach(el => { el.textContent = state.pac; });
+    if (pacInput.value.trim() && !$('#fNome').value) $('#fNome').value = pacInput.value.trim();
+    track('quiz_start', { momento: state.momento });
+    go(1);
+  };
+  startBtn.addEventListener('click', startQuiz);
+  pacInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); startQuiz(); } });
+
+  /* ===== Folhas de perguntas ===== */
+  sheets.forEach(s => {
+    const req = (s.dataset.req || '').split(',').filter(Boolean), nx = $('[data-next]', s);
+    if (!nx) return;
+    nx.disabled = req.length > 0;
+    s.addEventListener('change', e => {
+      if (e.target.type !== 'radio') return;
+      state.ans[e.target.name] = +e.target.value;
+      nx.disabled = !req.every(id => state.ans[id] !== undefined);
+      if (!nx.disabled) setTimeout(() => { if (sheets[current] === s && !busy) nx.click(); }, reduce ? 0 : 450);
+    });
+    nx.addEventListener('click', () => {
+      track('quiz_answer', { folha: current + 1 });
+      if (current === LAST - 1) renderResult();
+      go(current + 1);
+    });
+  });
+
+  const cons = $('#cons'), consOut = $('#consOut'), consRead = $('#consRead');
+  const syncCons = () => {
+    state.cons = +cons.value;
+    consOut.textContent = state.cons + ' consultas';
+    consRead.textContent = state.cons;
+    cons.setAttribute('aria-valuetext', state.cons + ' consultas');
+    ecg.rate(48 + state.cons * 1.4);
+  };
+  cons.addEventListener('input', syncCons);
+
+  /* ===== Laudo ===== */
+  function computeResult() {
+    const by = { fin: 0, mer: 0, pos: 0, ges: 0 }; let best = 0;
+    Object.keys(Q).forEach(id => { const v = Q[id].o[state.ans[id]][1]; by[Q[id].p] += v; if (v === 3) best++; });
+    const cp = consPts(state.cons); by.ges += cp; if (cp === 3) best++;
+    const total = Object.values(by).reduce((a, b) => a + b, 0);
+    const weak = Object.keys(by).sort((a, b) => by[a] - by[b])[0];
+    const status = total >= 19 ? 'estavel' : total >= 11 ? 'atencao' : 'critico';
+    return { by, best, total, weak, status };
+  }
+  function renderResult() {
+    result = computeResult();
+    $('#lPac').textContent = state.pac;
+    $('#lMom').textContent = state.momento;
+    const stamp = $('#stamp');
+    stamp.dataset.s = result.status; stamp.textContent = STAMP[result.status]; stamp.classList.remove('slam');
+
+    const rows = Object.keys(PILAR).map(k => {
+      const ok = result.by[k] >= CONFIG.REF_PILAR;
+      return `<tr><td>${PILAR[k]}</td><td class="${ok ? 'ok' : 'alert'}">${result.by[k]} de 6</td><td>5 ou mais</td></tr>`;
+    });
+    rows.push(`<tr><td>Respostas mais fortes</td><td class="${result.best >= 6 ? 'ok' : 'alert'}">${result.best} de 8</td><td>6 ou mais</td></tr>`);
+    $('#examBody').innerHTML = rows.join('');
+
+    const dg = DIAG[result.weak];
+    $('#dTxt').textContent = `Pilar mais frágil: ${PILAR[result.weak]}. ` + dg.d;
+    $('#rxList').innerHTML = dg.rx.map(t => `<li>${esc(t)}</li>`).join('');
+
+    const items = Object.keys(Q).sort((a, b) => Q[a].n - Q[b].n).map(id => {
+      const q = Q[id], mine = state.ans[id], bi = q.o.findIndex(o => o[1] === 3);
+      return { n: q.n, html: `<b>${q.n}. ${q.t}</b>Você marcou: ${q.o[mine][0]}. ${mine === bi ? '<span class="ok">Resposta mais forte.</span>' : `<span class="no">Mais forte: ${q.o[bi][0]}.</span>`}<span class="c">${q.c}</span>` };
+    });
+    items.push({ n: 7, html: `<b>7. Ponto de equilíbrio do consultório</b>Você marcou: ${state.cons} consultas. ${state.cons === BREAK ? '<span class="ok">Resposta mais forte.</span>' : `<span class="no">Mais forte: ${BREAK} consultas.</span>`}<span class="c">Com 15% de impostos e taxas, cada consulta deixa R$ 340. R$ 12.000 ÷ R$ 340 = 35,3, ou seja, 36 consultas só para empatar o custo fixo. Quem esquece os impostos responde 30.</span>` });
+    items.sort((a, b) => a.n - b.n);
+    $('#gab').innerHTML = items.map(i => `<li>${i.html}</li>`).join('');
+  }
+
+  /* ===== Formulário ===== */
+  const form = $('#leadForm');
+  const fNome = $('#fNome'), fEmail = $('#fEmail'), fWpp = $('#fWpp'), fInst = $('#fInst'), fConsent = $('#fConsent');
+  const submitBtn = $('#submitBtn');
+  fWpp.addEventListener('input', () => {
+    const d = fWpp.value.replace(/\D/g, '').slice(0, 11);
+    let out = d;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 6) out = `(${d.slice(0, 2)}) ${d.slice(2, d.length - 4)}-${d.slice(-4)}`;
+    fWpp.value = out;
+  });
+  const setErr = (input, errId, msg) => { $('#' + errId).textContent = msg || ''; if (input) input.setAttribute('aria-invalid', msg ? 'true' : 'false'); return !msg; };
+  function validate() {
+    const digits = fWpp.value.replace(/\D/g, '');
+    const checks = [
+      [fNome, 'eNome', fNome.value.trim().length >= 2 ? '' : 'Escreva seu nome.'],
+      [fEmail, 'eEmail', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(fEmail.value.trim()) ? '' : 'Confira o e-mail. Exemplo: nome@gmail.com'],
+      [fWpp, 'eWpp', digits.length >= 10 && digits.length <= 11 ? '' : 'Informe o WhatsApp com DDD.'],
+      [fConsent, 'eConsent', fConsent.checked ? '' : 'Marque o aceite para receber o laudo.']
+    ];
+    let firstBad = null;
+    checks.forEach(([el, id, msg]) => { if (!setErr(el, id, msg) && !firstBad) firstBad = el; });
+    if (firstBad) firstBad.focus();
+    return !firstBad;
+  }
+  [fNome, fEmail, fWpp].forEach(el => el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') setErr(el, el.getAttribute('aria-describedby'), ''); }));
+  fConsent.addEventListener('change', () => { if (fConsent.checked) setErr(fConsent, 'eConsent', ''); });
+
+  async function submitLead() {
+    if (submitBtn.disabled) return;
+    $('#eForm').textContent = '';
+    if (!validate()) return;
+    submitBtn.disabled = true; submitBtn.textContent = 'Emitindo laudo…';
+    const payload = {
+      produto: 'consulthree-jovens', versao: 'diagnostico-carreira-v1',
+      nome: fNome.value.trim(), email: fEmail.value.trim(), whatsapp: '55' + fWpp.value.replace(/\D/g, ''),
+      instituicao: fInst.value.trim(), momento: state.momento,
+      pontos: result.total, respostas_fortes: result.best, pilares: result.by, pilar_fragil: result.weak, status: result.status,
+      respostas: { ...state.ans, ponto_equilibrio: state.cons },
+      consentimento: true, pagina: location.origin + location.pathname, enviado_em: new Date().toISOString(), ...utm
+    };
+    try {
+      if (CONFIG.WEBHOOK_URL) {
+        const res = await fetch(CONFIG.WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+      } else {
+        await new Promise(r => setTimeout(r, 900));
+        console.info('[protótipo] lead capturado:', payload);
+      }
+      track('generate_lead', { status: result.status, pontos: result.total, momento: state.momento });
+      showDone(payload);
+    } catch (err) {
+      console.error(err);
+      submitBtn.disabled = false; submitBtn.textContent = 'Emitir laudo completo';
+      $('#eForm').textContent = 'O laudo não foi emitido. Confira sua conexão e toque em "Emitir laudo completo" de novo.';
+    }
+  }
+  submitBtn.addEventListener('click', submitLead);
+  [fNome, fEmail, fWpp, fInst].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submitLead(); } }));
+
+  function showDone(p) {
+    form.hidden = true;
+    $('#done').hidden = false;
+    $('#locked').classList.add('open');
+    $('#dEmail').textContent = p.email;
+    const msg = `Olá! Fiz o diagnóstico de carreira da Consulthree Jovens e o laudo deu "${STAMP[result.status]}" (${result.total} de 24 pontos). Quero entender o meu resultado.`;
+    $('#waBtn').href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(msg)}`;
+    $('#doneTitle').focus({ preventScroll: true });
+  }
+  $('#waBtn').addEventListener('click', () => track('whatsapp_click', { status: result && result.status }));
+
+  $('#restart').addEventListener('click', () => {
+    [fEmail, fWpp, fInst].forEach(el => { el.value = ''; }); fConsent.checked = false;
+    form.hidden = false; submitBtn.disabled = false; submitBtn.textContent = 'Emitir laudo completo';
+    $$('.err').forEach(el => { el.textContent = ''; });
+    $$('[aria-invalid]').forEach(el => el.setAttribute('aria-invalid', 'false'));
+    $('#done').hidden = true; $('#locked').classList.remove('open');
+    $$('.sheet input[type=radio]').forEach(r => { if (r.name !== 'momento') r.checked = false; });
+    $$('[data-next]').forEach(b => { b.disabled = !!b.closest('.sheet').dataset.req; });
+    state.ans = {}; cons.value = 20; syncCons();
+    go(0);
+  });
+
+  /* ===== ECG ===== */
+  const ecg = (() => {
+    const cv = $('#ecg'), ctx = cv.getContext('2d');
+    const SPEED = 82, GAP = 16;
+    let w = 0, h = 0, buf = null, x = 0, phase = 0, raf = 0, last = 0, acc = 0, bpm = 76, grid = null;
+    const g = (p, m, s, a) => a * Math.exp(-((p - m) ** 2) / (2 * s * s));
+    const wave = p => g(p, .10, .025, .10) - g(p, .215, .007, .12) + g(p, .24, .009, 1) - g(p, .265, .009, .28) + g(p, .46, .045, .22);
+    function size() {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      w = Math.max(1, Math.round(cv.clientWidth)); h = Math.max(1, Math.round(cv.clientHeight));
+      cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buf = new Float32Array(w).fill(NaN); x = 0;
+      grid = document.createElement('canvas'); grid.width = w * dpr; grid.height = h * dpr;
+      const gc = grid.getContext('2d'); gc.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const line = (x1, y1, x2, y2, major) => { gc.strokeStyle = major ? 'rgba(214,116,108,.45)' : 'rgba(232,168,162,.32)'; gc.lineWidth = major ? 1 : .5; gc.beginPath(); gc.moveTo(x1, y1); gc.lineTo(x2, y2); gc.stroke(); };
+      for (let i = 0, gx = 0; gx <= w; gx += 6, i++) line(gx + .5, 0, gx + .5, h, i % 5 === 0);
+      for (let i = 0, gy = 0; gy <= h; gy += 6, i++) line(0, gy + .5, w, gy + .5, i % 5 === 0);
+    }
+    function sample() { phase += (bpm / 60) / SPEED; if (phase >= 1) phase -= 1; return wave(Math.max(0, phase)) + (Math.random() - .5) * .014; }
+    function draw() {
+      ctx.clearRect(0, 0, w, h); ctx.drawImage(grid, 0, 0, w, h);
+      const mid = h * .64, amp = h * .52, len = buf.length;
+      ctx.strokeStyle = '#1D2A28'; ctx.lineWidth = 1.6; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      ctx.beginPath(); let pen = false;
+      for (let i = 0; i < len; i++) {
+        const v = buf[i], d = (i - x + len) % len;
+        if (Number.isNaN(v) || (d > 0 && d <= GAP)) { pen = false; continue; }
+        const y = mid - v * amp;
+        if (pen) ctx.lineTo(i, y); else { ctx.moveTo(i, y); pen = true; }
+      }
+      ctx.stroke();
+      const v = buf[x];
+      if (!Number.isNaN(v)) { ctx.fillStyle = '#1F3E9C'; ctx.beginPath(); ctx.arc(x, mid - v * amp, 2.4, 0, Math.PI * 2); ctx.fill(); }
+    }
+    function loop(t) {
+      if (!last) last = t;
+      const dt = Math.min(.05, (t - last) / 1000); last = t;
+      acc += dt * SPEED;
+      while (acc >= 1) { acc -= 1; x = (x + 1) % buf.length; buf[x] = sample(); }
+      draw(); raf = requestAnimationFrame(loop);
+    }
+    function prefill() { for (let i = 0; i < buf.length; i++) { x = i; buf[i] = sample(); } }
+    return {
+      start() { if (!buf || Math.round(cv.clientWidth) !== w) size(); if (reduce) { prefill(); draw(); return; } cancelAnimationFrame(raf); last = 0; raf = requestAnimationFrame(loop); },
+      stop() { cancelAnimationFrame(raf); raf = 0; },
+      rate(b) { bpm = b; if (reduce && buf) { buf.fill(NaN); phase = 0; prefill(); draw(); } },
+      resize() { if (buf) { size(); if (reduce) { prefill(); draw(); } } }
+    };
+  })();
+  addEventListener('resize', () => ecg.resize());
+
+  /* ===== Início ===== */
+  syncCons(); setInert(); fit();
+  track('quiz_view', utm);
+})();
+</script>
+</body>
+</html>
